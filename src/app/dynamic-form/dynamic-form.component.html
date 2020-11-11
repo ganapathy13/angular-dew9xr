@@ -1,0 +1,36 @@
+<form [formGroup]="dynamicForm" class="row">
+	<div *ngFor="let item of dynamicFormEntity" [ngSwitch]="item.type" class="col-auto">
+		<div *ngSwitchCase="'input'" class="form-group">
+			<label>{{item.label}}</label>
+			<input type="text" [formControlName]="item.controlName" class="form-control"/>
+    </div>
+			<div *ngSwitchCase="'select'" class="form-group">
+				<label>{{item.label}}</label>
+				<select [formControlName]="item.controlName" class="form-control">
+        <option *ngFor="let option of item.options" [value]="option"
+          >{{option}}</option
+        >
+      </select>
+			</div>
+			<div *ngSwitchCase="'radio'" class="form-group">
+				<label>{{item.label}}</label>
+				<div *ngFor="let radioOption of item.options" class="form-check">
+					<input
+          type="radio"
+          [formControlName]="item.controlName"
+          [value]="radioOption"
+          	class="form-check-input"
+        />
+					<label class="form-check-label">{{radioOption}}</label>
+				</div>
+			</div>
+			<div *ngSwitchCase="'checkbox'" class="form-group">
+				<label>{{item.label}}</label>
+				<div *ngFor="let checkboxOption of dynamicForm.get(item.controlName).controls;let i=index"
+					class="form-check">
+					<input type="checkbox" [formControl]="checkboxOption" 	class="form-check-input"/>
+					<label class="form-check-label">{{item.options[i].label}}</label>
+				</div>
+			</div>
+		</div>
+</form>
